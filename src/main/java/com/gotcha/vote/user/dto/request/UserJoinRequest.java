@@ -14,6 +14,8 @@ public class UserJoinRequest {
     private String email;
     private String pwd;
     private String name;
+    private PartName partName;
+    private TeamName teamName;
 
     @Builder
     public UserJoinRequest(String loginId, String email, String pwd, String name, PartName partName, TeamName teamName) {
@@ -24,9 +26,6 @@ public class UserJoinRequest {
         this.partName = partName;
         this.teamName = teamName;
     }
-
-    private PartName partName;
-    private TeamName teamName;
 
     public User toEntity(String encodedPwd) {
         return User.builder()
