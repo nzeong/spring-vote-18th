@@ -42,4 +42,8 @@ public class User {
         this.partName = partName;
         this.teamName = teamName;
     }
+
+    public boolean isSamePart(User other) {
+        return this.partName.equals(other.getPartName());
+    }
 }
