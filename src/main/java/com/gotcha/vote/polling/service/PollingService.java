@@ -19,6 +19,7 @@ public class PollingService {
     private final UserRepository userRepository;
     private final LeaderVoteRepository leaderVoteRepository;
 
+    @Transactional
     public void voteLeader(final PrincipalDetails principal, final Long candidateId) {
         User voter = principal.getUser();
         validateDuplicatedVote(voter);
@@ -34,13 +35,13 @@ public class PollingService {
         leaderVoteRepository.save(vote);
     }
 
-    private void validateDuplicatedVote(User voter) {
+    private void validateDuplicatedVote(final User voter) {
         leaderVoteRepository.findByVoter(voter).ifPresent(user -> {
             new AppException(ErrorCode.DUPLICATED_VOTE);
         });
     }
 
-    private void validatePart(User voter, User candidate) {
+    private void validatePart(final User voter, final User candidate) {
         if(!voter.isSamePart(candidate)) {
             throw new AppException(ErrorCode.INVALID_VOTE);
         }
