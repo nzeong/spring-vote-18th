@@ -4,9 +4,13 @@ import com.gotcha.vote.exception.AppException;
 import com.gotcha.vote.exception.ErrorCode;
 import com.gotcha.vote.global.config.user.PrincipalDetails;
 import com.gotcha.vote.polling.domain.LeaderVote;
+import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.repository.LeaderVoteRepository;
+import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.User;
 import com.gotcha.vote.user.repository.UserRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +37,12 @@ public class PollingService {
                 .candidate(candidate)
                 .build();
         leaderVoteRepository.save(vote);
+    }
+
+    public List<CandidatesResponse> findCandidates(final PartName partName) {
+        return userRepository.findAllCandidateOrderByVoteCount(partName)
+                .stream().map(CandidatesResponse::from)
+                .collect(Collectors.toList());
     }
 
     private void validateDuplicatedVote(final User voter) {
