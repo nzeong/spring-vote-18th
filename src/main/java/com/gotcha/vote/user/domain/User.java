@@ -46,4 +46,12 @@ public class User {
     public boolean isSamePart(User other) {
         return this.partName.equals(other.getPartName());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(((User)o).getLoginId().equals(loginId)) {
+            return true;
+        }
+        return false;
+    }
 }

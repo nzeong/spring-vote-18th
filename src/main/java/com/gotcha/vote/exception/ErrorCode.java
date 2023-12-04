@@ -19,7 +19,8 @@ public enum ErrorCode {
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
 
     DUPLICATED_VOTE(HttpStatus.CONFLICT, "이미 투표한 사용자입니다."),
-    INVALID_VOTE(HttpStatus.BAD_REQUEST, "다른 파트에 투표할 수 없습니다.");
+    INVALID_VOTE(HttpStatus.BAD_REQUEST, "다른 파트에 투표할 수 없습니다."),
+    SELF_VOTE(HttpStatus.BAD_REQUEST, "본인에게는 투표할 수 없습니다.");
 
     private HttpStatus httpStatus;
     private String message;
