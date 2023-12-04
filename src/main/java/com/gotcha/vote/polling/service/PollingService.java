@@ -6,12 +6,14 @@ import com.gotcha.vote.global.config.user.PrincipalDetails;
 import com.gotcha.vote.polling.domain.LeaderVote;
 import com.gotcha.vote.polling.domain.TeamVote;
 import com.gotcha.vote.polling.dto.response.CandidatesResponse;
+import com.gotcha.vote.polling.dto.response.TeamsResponse;
 import com.gotcha.vote.polling.repository.LeaderVoteRepository;
 import com.gotcha.vote.polling.repository.TeamVoteRepository;
 import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.TeamName;
 import com.gotcha.vote.user.domain.User;
 import com.gotcha.vote.user.repository.UserRepository;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -77,5 +79,11 @@ public class PollingService {
         teamVoteRepository.findByVoter(voter).ifPresent(user -> {
             new AppException(ErrorCode.DUPLICATED_VOTE);
         });
+    }
+
+    public List<TeamsResponse> findTeams() {
+        return Arrays.stream(TeamName.values())
+                .map(TeamsResponse::from)
+                .collect(Collectors.toList());
     }
 }

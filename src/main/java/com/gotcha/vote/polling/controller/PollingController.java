@@ -2,10 +2,12 @@ package com.gotcha.vote.polling.controller;
 
 import com.gotcha.vote.global.config.user.PrincipalDetails;
 import com.gotcha.vote.polling.dto.response.CandidatesResponse;
+import com.gotcha.vote.polling.dto.response.TeamsResponse;
 import com.gotcha.vote.polling.service.PollingService;
 import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.TeamName;
 import java.util.List;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +42,10 @@ public class PollingController {
             @AuthenticationPrincipal final PrincipalDetails principal, @RequestParam final TeamName teamName) {
         pollingService.voteTeam(principal, teamName);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/teams")
+    ResponseEntity<List<TeamsResponse>> findAllTeams() {
+        return ResponseEntity.ok().body(pollingService.findTeams());
     }
 }
