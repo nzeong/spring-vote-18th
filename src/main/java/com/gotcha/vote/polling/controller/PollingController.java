@@ -4,6 +4,7 @@ import com.gotcha.vote.global.config.user.PrincipalDetails;
 import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.service.PollingService;
 import com.gotcha.vote.user.domain.PartName;
+import com.gotcha.vote.user.domain.TeamName;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,5 +33,12 @@ public class PollingController {
     @GetMapping("/candidates")
     ResponseEntity<List<CandidatesResponse>> findAllCandidates(@RequestParam final PartName partName) {
         return ResponseEntity.ok().body(pollingService.findCandidates(partName));
+    }
+
+    @PostMapping("/demoday")
+    ResponseEntity<Void> voteForDemoday(
+            @AuthenticationPrincipal final PrincipalDetails principal, @RequestParam final TeamName teamName) {
+        pollingService.voteTeam(principal, teamName);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

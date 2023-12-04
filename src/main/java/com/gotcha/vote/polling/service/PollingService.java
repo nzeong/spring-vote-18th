@@ -4,9 +4,12 @@ import com.gotcha.vote.exception.AppException;
 import com.gotcha.vote.exception.ErrorCode;
 import com.gotcha.vote.global.config.user.PrincipalDetails;
 import com.gotcha.vote.polling.domain.LeaderVote;
+import com.gotcha.vote.polling.domain.TeamVote;
 import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.repository.LeaderVoteRepository;
+import com.gotcha.vote.polling.repository.TeamVoteRepository;
 import com.gotcha.vote.user.domain.PartName;
+import com.gotcha.vote.user.domain.TeamName;
 import com.gotcha.vote.user.domain.User;
 import com.gotcha.vote.user.repository.UserRepository;
 import java.util.List;
@@ -22,11 +25,12 @@ public class PollingService {
 
     private final UserRepository userRepository;
     private final LeaderVoteRepository leaderVoteRepository;
+    private final TeamVoteRepository teamVoteRepository;
 
     @Transactional
     public void voteLeader(final PrincipalDetails principal, final Long candidateId) {
         User voter = principal.getUser();
-        validateDuplicatedVote(voter);
+        validateDuplicatedLeaderVote(voter);
 
         User candidate = userRepository.findById(candidateId)
                 .orElseThrow(() -> new AppException(ErrorCode.USERID_NOT_FOUND));
@@ -45,7 +49,7 @@ public class PollingService {
                 .collect(Collectors.toList());
     }
 
-    private void validateDuplicatedVote(final User voter) {
+    private void validateDuplicatedLeaderVote(final User voter) {
         leaderVoteRepository.findByVoter(voter).ifPresent(user -> {
             new AppException(ErrorCode.DUPLICATED_VOTE);
         });
@@ -55,5 +59,23 @@ public class PollingService {
         if(!voter.isSamePart(candidate)) {
             throw new AppException(ErrorCode.INVALID_VOTE);
         }
+    }
+
+    @Transactional
+    public void voteTeam(final PrincipalDetails principal, final TeamName teamName) {
+        User voter = principal.getUser();
+        validateDuplicatedTeamVote(voter);
+
+        TeamVote vote = TeamVote.builder()
+                .team(teamName)
+                .voter(voter)
+                .build();
+        teamVoteRepository.save(vote);
+    }
+
+    private void validateDuplicatedTeamVote(final User voter) {
+        teamVoteRepository.findByVoter(voter).ifPresent(user -> {
+            new AppException(ErrorCode.DUPLICATED_VOTE);
+        });
     }
 }
