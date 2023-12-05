@@ -1,7 +1,6 @@
 package com.gotcha.vote.polling.dto.response;
 
 import com.gotcha.vote.user.domain.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,17 +10,11 @@ public class CandidatesResponse {
 
     private Long id;
     private String name;
+    private Long count;
 
-    @Builder
-    public CandidatesResponse(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public static CandidatesResponse from(User user) {
-        return CandidatesResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .build();
+    public CandidatesResponse(User user, Long count) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.count = count;
     }
 }

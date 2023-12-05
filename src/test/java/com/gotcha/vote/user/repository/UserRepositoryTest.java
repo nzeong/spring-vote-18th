@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.gotcha.vote.environ.TestRepository;
 import com.gotcha.vote.polling.domain.LeaderVote;
+import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.User;
 import java.util.List;
@@ -43,10 +44,12 @@ public class UserRepositoryTest {
         testRepository.저장하기(종미의투표, 윤정의투표, 지혜의투표, 은비의투표);
 
         // when
-        List<User> 조회결과 = userRepository.findAllCandidateOrderByVoteCount(PartName.BACKEND);
+        List<CandidatesResponse> 조회결과 = userRepository.findAllCandidateOrderByVoteCount(PartName.BACKEND);
 
         // then
-        List<User> 예상결과 = List.of(윤정, 지혜, 종미, 은비);
-        assertEquals(예상결과, 조회결과);
+        List<String> 예상결과 = List.of(윤정.getName(), 지혜.getName(), 종미.getName(), 은비.getName());
+        List<Long> 득표 = List.of(3L, 1L, 0L, 0L);
+        assertEquals(예상결과, 조회결과.stream().map(CandidatesResponse::getName).toList());
+        assertEquals(득표, 조회결과.stream().map(CandidatesResponse::getCount).toList());
     }
 }

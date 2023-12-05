@@ -46,12 +46,6 @@ public class PollingService {
         leaderVoteRepository.save(vote);
     }
 
-    public List<CandidatesResponse> findCandidates(final PartName partName) {
-        return userRepository.findAllCandidateOrderByVoteCount(partName)
-                .stream().map(CandidatesResponse::from)
-                .collect(Collectors.toList());
-    }
-
     private void validateDuplicatedLeaderVote(final User voter) {
         leaderVoteRepository.findByVoter(voter).ifPresent(user -> {
             new AppException(ErrorCode.DUPLICATED_VOTE);
@@ -62,6 +56,10 @@ public class PollingService {
         if(!voter.isSamePart(candidate)) {
             throw new AppException(ErrorCode.INVALID_VOTE);
         }
+    }
+
+    public List<CandidatesResponse> findCandidates(final PartName partName) {
+        return userRepository.findAllCandidateOrderByVoteCount(partName);
     }
 
     @Transactional

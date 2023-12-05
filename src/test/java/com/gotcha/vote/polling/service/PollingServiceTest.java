@@ -8,8 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gotcha.vote.environ.DatabaseCleaner;
 import com.gotcha.vote.environ.TestRepository;
+import com.gotcha.vote.polling.domain.LeaderVote;
 import com.gotcha.vote.polling.domain.TeamVote;
+import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.dto.response.TeamsResponse;
+import com.gotcha.vote.polling.repository.LeaderVoteRepository;
 import com.gotcha.vote.polling.repository.TeamVoteRepository;
 import com.gotcha.vote.user.domain.TeamName;
 import com.gotcha.vote.user.repository.UserRepository;
