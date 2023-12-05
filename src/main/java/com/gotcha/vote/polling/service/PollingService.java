@@ -5,6 +5,8 @@ import com.gotcha.vote.exception.ErrorCode;
 import com.gotcha.vote.global.config.user.PrincipalDetails;
 import com.gotcha.vote.polling.domain.LeaderVote;
 import com.gotcha.vote.polling.domain.TeamVote;
+import com.gotcha.vote.polling.dto.request.LeaderVoteRequest;
+import com.gotcha.vote.polling.dto.request.TeamVoteRequest;
 import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.dto.response.TeamsResponse;
 import com.gotcha.vote.polling.repository.LeaderVoteRepository;
@@ -31,11 +33,11 @@ public class PollingService {
     private final TeamVoteRepository teamVoteRepository;
 
     @Transactional
-    public void voteLeader(final PrincipalDetails principal, final Long candidateId) {
+    public void voteLeader(final PrincipalDetails principal, final LeaderVoteRequest request) {
         User voter = principal.getUser();
         validateDuplicatedLeaderVote(voter);
 
-        User candidate = userRepository.findById(candidateId)
+        User candidate = userRepository.findById(request.getCandidateId())
                 .orElseThrow(() -> new AppException(ErrorCode.USERID_NOT_FOUND));
         validatePart(voter, candidate);
 
@@ -63,12 +65,12 @@ public class PollingService {
     }
 
     @Transactional
-    public void voteTeam(final PrincipalDetails principal, final TeamName teamName) {
+    public void voteTeam(final PrincipalDetails principal, final TeamVoteRequest request) {
         User voter = principal.getUser();
         validateDuplicatedTeamVote(voter);
 
         TeamVote vote = TeamVote.builder()
-                .team(teamName)
+                .team(request.getTeamName())
                 .voter(voter)
                 .build();
         teamVoteRepository.save(vote);
