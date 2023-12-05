@@ -13,6 +13,7 @@ import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.TeamName;
 import com.gotcha.vote.user.domain.User;
 import com.gotcha.vote.user.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,8 +83,20 @@ public class PollingService {
     }
 
     public List<TeamsResponse> findTeams() {
-        return Arrays.stream(TeamName.values())
-                .map(TeamsResponse::from)
-                .collect(Collectors.toList());
+        List<TeamName> allTeams = Arrays.asList(TeamName.values());
+        List<TeamsResponse> teamRanks = teamVoteRepository.findAllTeamsOrderByVoteCount();
+
+        List<TeamName> rankedTeams = teamRanks.stream()
+                .map(TeamsResponse::getTeam)
+                .toList();
+        List<TeamName> unrankedTeams = allTeams.stream()
+                .filter(team -> !rankedTeams.contains(team))
+                .toList();
+
+        List<TeamsResponse> response = new ArrayList<>(teamRanks);
+        response.addAll(unrankedTeams.stream()
+                .map(team -> new TeamsResponse(team, 0L))
+                .toList());
+        return response;
     }
 }

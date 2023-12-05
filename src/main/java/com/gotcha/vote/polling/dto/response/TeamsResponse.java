@@ -1,7 +1,6 @@
 package com.gotcha.vote.polling.dto.response;
 
 import com.gotcha.vote.user.domain.TeamName;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,13 +8,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeamsResponse {
 
-    private String name;
+    private TeamName team;
+    private Long count;
 
-    public TeamsResponse(final String name) {
-        this.name = name;
+    public TeamsResponse(final TeamName team, final Long count) {
+        this.team = team;
+        this.count = count;
     }
 
-    public static TeamsResponse from(final TeamName team) {
-        return new TeamsResponse(team.getValue());
+    @Override
+    public boolean equals(Object o) {
+        TeamsResponse other = (TeamsResponse) o;
+        if(other.getTeam().equals(team) && other.getCount().equals(count)) {
+            return true;
+        }
+        return false;
     }
 }
