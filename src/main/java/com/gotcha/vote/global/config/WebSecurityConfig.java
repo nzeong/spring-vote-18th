@@ -29,11 +29,8 @@ public class WebSecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET,"/swagger-ui/**", "/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/users/join").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/users/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "api/vote/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "api/users.test").hasAnyRole("USER") 이런 식으로 추가 (회원가입시 기본으로 "USER" 권한 설정)
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "api/vote/demoday", "api/vote/leader").authenticated()
+                        .anyRequest().permitAll()
                 );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

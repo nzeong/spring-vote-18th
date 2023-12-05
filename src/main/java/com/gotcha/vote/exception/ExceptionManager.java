@@ -1,5 +1,6 @@
 package com.gotcha.vote.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,5 +18,11 @@ public class ExceptionManager {
     public ResponseEntity<String> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
         return ResponseEntity.status(ErrorCode.NO_PARAMETER.getHttpStatus())
                 .body(ErrorCode.NO_PARAMETER.name() + " " + ex.getParameterName() + ErrorCode.NO_PARAMETER.getMessage());
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<String> handleException(Throwable ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("INTERNAL_SERVER_ERROR " + ex.getMessage());
     }
 }
