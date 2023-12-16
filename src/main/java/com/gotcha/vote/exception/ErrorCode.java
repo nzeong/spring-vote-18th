@@ -16,7 +16,12 @@ public enum ErrorCode {
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 JWT 토큰입니다."),
     UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "지원되지 않는 JWT 토큰입니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "JWT 토큰이 잘못되었습니다."),
-    TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다.");
+    TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
+
+    DUPLICATED_VOTE(HttpStatus.CONFLICT, "이미 투표한 사용자입니다."),
+    INVALID_VOTE(HttpStatus.BAD_REQUEST, "다른 파트에 투표할 수 없습니다."),
+    SELF_VOTE(HttpStatus.BAD_REQUEST, "본인과 본인 팀에게는 투표할 수 없습니다."),
+    NO_PARAMETER(HttpStatus.BAD_REQUEST, " 파라미터가 없습니다.");
 
     private HttpStatus httpStatus;
     private String message;
