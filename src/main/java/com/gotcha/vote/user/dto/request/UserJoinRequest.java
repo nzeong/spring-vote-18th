@@ -3,6 +3,7 @@ package com.gotcha.vote.user.dto.request;
 import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.TeamName;
 import com.gotcha.vote.user.domain.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,9 @@ public class UserJoinRequest {
     private String email;
     private String pwd;
     private String name;
+    @Schema(allowableValues = {"frontend", "backend", "designer", "product_manager"})
     private PartName partName;
+    @Schema(allowableValues = {"sharemid", "localmood", "sniff", "ready", "gotcha"})
     private TeamName teamName;
 
     @Builder

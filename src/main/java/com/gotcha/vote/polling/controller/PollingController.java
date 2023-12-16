@@ -7,6 +7,8 @@ import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.dto.response.TeamsResponse;
 import com.gotcha.vote.polling.service.PollingService;
 import com.gotcha.vote.user.domain.PartName;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +38,10 @@ public class PollingController {
     }
 
     @GetMapping("/candidates")
-    ResponseEntity<List<CandidatesResponse>> findAllCandidates(@RequestParam final PartName partName) {
+    ResponseEntity<List<CandidatesResponse>> findAllCandidates(
+            @Parameter(schema = @Schema(
+                            allowableValues = {"FRONTEND", "BACKEND", "DESIGNER", "PRODUCT_PLANNER", "frontend", "backend", "designer", "product_planner"}))
+            @RequestParam final PartName partName) {
         return ResponseEntity.ok().body(pollingService.findCandidates(partName));
     }
 
