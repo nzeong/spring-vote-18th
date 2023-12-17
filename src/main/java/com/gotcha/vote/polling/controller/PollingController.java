@@ -41,7 +41,7 @@ public class PollingController {
     ResponseEntity<List<CandidatesResponse>> findAllCandidates(
             @Parameter(schema = @Schema(
                             allowableValues = {"FRONTEND", "BACKEND", "DESIGNER", "PRODUCT_PLANNER", "frontend", "backend", "designer", "product_planner"}))
-            @RequestParam final PartName partName) {
+            @RequestParam(value = "part-name") final PartName partName) {
         return ResponseEntity.ok().body(pollingService.findCandidates(partName));
     }
 
