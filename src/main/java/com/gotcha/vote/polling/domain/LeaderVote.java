@@ -25,20 +25,20 @@ public class LeaderVote {
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private User candidate;
+    private LeaderCandidate candidate;
 
     @JoinColumn(nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private User voter;
 
     @Builder
-    public LeaderVote(final User candidate, final User voter) {
+    public LeaderVote(final LeaderCandidate candidate, final User voter) {
         validateSelfVote(candidate, voter);
         this.candidate = candidate;
         this.voter = voter;
     }
 
-    private void validateSelfVote(final User candidate, final User voter) {
+    private void validateSelfVote(final LeaderCandidate candidate, final User voter) {
         if(candidate.equals(voter)) {
             throw new AppException(ErrorCode.SELF_VOTE);
         }

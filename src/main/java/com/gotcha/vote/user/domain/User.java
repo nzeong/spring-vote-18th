@@ -1,8 +1,8 @@
 package com.gotcha.vote.user.domain;
 
+import com.gotcha.vote.polling.domain.LeaderCandidate;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
@@ -43,7 +43,7 @@ public class User {
         this.teamName = teamName;
     }
 
-    public boolean isSamePart(User other) {
+    public boolean isSamePart(LeaderCandidate other) {
         return this.partName.equals(other.getPartName());
     }
 

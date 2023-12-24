@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByLoginId(String loginId);
     Optional<User> findByEmail(String email);
-    @Query("select new com.gotcha.vote.polling.dto.response."
+/*    @Query("select new com.gotcha.vote.polling.dto.response."
             + "CandidatesResponse(u, count(v)) "
             + "from User u "
             + "left join LeaderVote v "
@@ -22,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "where u.partName = :partName "
             + "group by u "
             + "order by count(v) desc")
-    List<CandidatesResponse> findAllCandidateOrderByVoteCount(PartName partName);
+    List<CandidatesResponse> findAllCandidateOrderByVoteCount(PartName partName);*/
 }

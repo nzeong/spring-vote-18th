@@ -32,7 +32,7 @@ public class WebSecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET,"/swagger-ui/**", "/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/vote/demoday", "api/vote/leader").authenticated()
+                        .requestMatchers(HttpMethod.POST, "api/vote/demoday", "api/vote/leader").hasAnyRole("USER")
                         .anyRequest().permitAll()
                 );
 

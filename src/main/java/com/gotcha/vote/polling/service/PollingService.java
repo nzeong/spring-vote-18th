@@ -3,12 +3,14 @@ package com.gotcha.vote.polling.service;
 import com.gotcha.vote.exception.AppException;
 import com.gotcha.vote.exception.ErrorCode;
 import com.gotcha.vote.global.config.user.PrincipalDetails;
+import com.gotcha.vote.polling.domain.LeaderCandidate;
 import com.gotcha.vote.polling.domain.LeaderVote;
 import com.gotcha.vote.polling.domain.TeamVote;
 import com.gotcha.vote.polling.dto.request.LeaderVoteRequest;
 import com.gotcha.vote.polling.dto.request.TeamVoteRequest;
 import com.gotcha.vote.polling.dto.response.CandidatesResponse;
 import com.gotcha.vote.polling.dto.response.TeamsResponse;
+import com.gotcha.vote.polling.repository.LeaderCandidateRepository;
 import com.gotcha.vote.polling.repository.LeaderVoteRepository;
 import com.gotcha.vote.polling.repository.TeamVoteRepository;
 import com.gotcha.vote.user.domain.PartName;
@@ -31,13 +33,14 @@ public class PollingService {
     private final UserRepository userRepository;
     private final LeaderVoteRepository leaderVoteRepository;
     private final TeamVoteRepository teamVoteRepository;
+    private final LeaderCandidateRepository leaderCandidateRepository;
 
     @Transactional
     public void voteLeader(final PrincipalDetails principal, final LeaderVoteRequest request) {
         User voter = principal.getUser();
         validateDuplicatedLeaderVote(voter);
 
-        User candidate = userRepository.findById(request.getCandidateId())
+        LeaderCandidate candidate = leaderCandidateRepository.findById(request.getCandidateId())
                 .orElseThrow(() -> new AppException(ErrorCode.USERID_NOT_FOUND));
         validatePart(voter, candidate);
 
@@ -54,14 +57,14 @@ public class PollingService {
         });
     }
 
-    private void validatePart(final User voter, final User candidate) {
+    private void validatePart(final User voter, final LeaderCandidate candidate) {
         if(!voter.isSamePart(candidate)) {
             throw new AppException(ErrorCode.INVALID_VOTE);
         }
     }
 
     public List<CandidatesResponse> findCandidates(final PartName partName) {
-        return userRepository.findAllCandidateOrderByVoteCount(partName);
+        return leaderCandidateRepository.findAllCandidateOrderByVoteCount(partName);
     }
 
     @Transactional
