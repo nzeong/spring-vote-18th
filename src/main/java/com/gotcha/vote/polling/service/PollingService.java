@@ -16,11 +16,9 @@ import com.gotcha.vote.polling.repository.TeamVoteRepository;
 import com.gotcha.vote.user.domain.PartName;
 import com.gotcha.vote.user.domain.TeamName;
 import com.gotcha.vote.user.domain.User;
-import com.gotcha.vote.user.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PollingService {
-
-    private final UserRepository userRepository;
     private final LeaderVoteRepository leaderVoteRepository;
     private final TeamVoteRepository teamVoteRepository;
     private final LeaderCandidateRepository leaderCandidateRepository;

@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TokenResponse {
     private String accessToken;
+    private String name;
     private PartName partName;
     private TeamName teamName;
 
     @Builder
-    public TokenResponse(String accessToken, PartName partName, TeamName teamName) {
+    public TokenResponse(String accessToken, String name, PartName partName, TeamName teamName) {
         this.accessToken = accessToken;
+        this.name = name;
         this.partName = partName;
         this.teamName = teamName;
     }
@@ -24,6 +26,7 @@ public class TokenResponse {
     public static TokenResponse from(String accessToken, User selectedUser) {
         return TokenResponse.builder()
                 .accessToken(accessToken)
+                .name(selectedUser.getName())
                 .partName(selectedUser.getPartName())
                 .teamName(selectedUser.getTeamName())
                 .build();

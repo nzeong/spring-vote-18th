@@ -1,7 +1,6 @@
 package com.gotcha.vote.polling.dto.response;
 
 import com.gotcha.vote.polling.domain.LeaderCandidate;
-import com.gotcha.vote.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
