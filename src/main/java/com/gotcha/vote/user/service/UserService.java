@@ -45,6 +45,6 @@ public class UserService {
         //access 토큰 생성
         String accessToken = tokenProvider.createAccessToken(selectedUser.getId(), selectedUser.getLoginId(), authentication);
 
-        return TokenResponse.from(accessToken);
+        return TokenResponse.from(accessToken, selectedUser);
     }
 }
