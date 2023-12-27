@@ -3,6 +3,7 @@ package com.gotcha.vote.global.config;
 import com.gotcha.vote.global.config.jwt.JwtAuthenticationFilter;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+    @Value("${client}")
+    private String CLIENT_URL;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -45,7 +48,7 @@ public class WebSecurityConfig {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedHeaders(Collections.singletonList("*"));
             config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowedOriginPatterns(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(Collections.singletonList(CLIENT_URL));
             config.setAllowCredentials(true);
             return config;
         };
